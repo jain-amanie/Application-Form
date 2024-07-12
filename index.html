@@ -115,7 +115,7 @@
         loginButton.addEventListener('click', handleSubmit);
 
         function handleTouchStart(event) {
-            event.preventDefault(); // Prevent default touch behavior
+            event.preventDefault();
             if (!validateForm()) {
                 loginButton.classList.add('move-away');
                 setTimeout(() => {
@@ -126,15 +126,28 @@
 
         function handleSubmit(event) {
             if (!validateForm()) {
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 alert('Please fill in both first name and last name.');
             } else {
                 popup.style.display = 'flex';
                 setTimeout(() => {
                     popup.style.display = 'none';
-                }, 3000); // Popup will disappear after 3 seconds
+                }, 3000);
             }
         }
+
+        // Display popup immediately when both fields are filled
+        function checkAndDisplayPopup() {
+            if (validateForm()) {
+                popup.style.display = 'flex';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        firstNameInput.addEventListener('input', checkAndDisplayPopup);
+        lastNameInput.addEventListener('input', checkAndDisplayPopup);
     </script>
 </body>
 </html>
