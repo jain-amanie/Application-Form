@@ -111,20 +111,30 @@
         lastNameInput.addEventListener('input', updateButtonState);
 
         // Handle button animation and click events
-        loginButton.addEventListener('click', (event) => {
+        loginButton.addEventListener('touchstart', handleTouchStart);
+        loginButton.addEventListener('click', handleSubmit);
+
+        function handleTouchStart(event) {
+            event.preventDefault(); // Prevent default touch behavior
             if (!validateForm()) {
-                event.preventDefault();
                 loginButton.classList.add('move-away');
                 setTimeout(() => {
                     loginButton.classList.remove('move-away');
                 }, 500);
+            }
+        }
+
+        function handleSubmit(event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission
+                alert('Please fill in both first name and last name.');
             } else {
                 popup.style.display = 'flex';
                 setTimeout(() => {
                     popup.style.display = 'none';
                 }, 3000); // Popup will disappear after 3 seconds
             }
-        });
+        }
     </script>
 </body>
 </html>
