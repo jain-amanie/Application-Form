@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romantic Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffafbd, #ffc3a0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: darkblue;
+        }
+        .btn.move-away {
+            animation: move-away-animation 0.5s forwards;
+        }
+        @keyframes move-away-animation {
+            from { transform: translateX(0); }
+            to { transform: translateX(100px); }
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            font-size: 3em;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 9999;
+        }
+        .popup span {
+            color: #ff69b4;
+            animation: zoom-in-out 2s infinite;
+        }
+        @keyframes zoom-in-out {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <form id="nameForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+    </form>
+    <button id="loginButton" class="btn">Sari fields bharo</button>
+    <div id="popup" class="popup">
+        <span>I Love You!</span>
+    </div>
+
+    <script>
+        const firstNameInput = document.getElementById('firstName');
+        const lastNameInput = document.getElementById('lastName');
+        const loginButton = document.getElementById('loginButton');
+        const popup = document.getElementById('popup');
+
+        function validateForm() {
+            return firstNameInput.value.trim() !== '' && lastNameInput.value.trim() !== '';
+        }
+
+        firstNameInput.addEventListener('input', updateButtonState);
+        lastNameInput.addEventListener('input', updateButtonState);
+
+        function updateButtonState() {
+            if (validateForm()) {
+                loginButton.textContent = 'Sending love';
+            } else {
+                loginButton.textContent = 'Sari fields bharo';
+            }
+        }
+
+        loginButton.addEventListener('mouseover', () => {
+            if (!validateForm()) {
+                loginButton.classList.add('move-away');
+                setTimeout(() => {
+                    loginButton.classList.remove('move-away');
+                }, 500);
+            }
+        });
+
+        loginButton.addEventListener('click', (event) => {
+            if (validateForm()) {
+                popup.style.display = 'flex';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 3000); // Popup will disappear after 3 seconds
+            } else {
+                event.preventDefault();
+                alert('Please fill in both first name and last name.');
+            }
+        });
+    </script>
+</body>
+</html>
