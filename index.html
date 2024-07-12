@@ -98,9 +98,6 @@
             return firstNameInput.value.trim() !== '' && lastNameInput.value.trim() !== '';
         }
 
-        firstNameInput.addEventListener('input', updateButtonState);
-        lastNameInput.addEventListener('input', updateButtonState);
-
         function updateButtonState() {
             if (validateForm()) {
                 loginButton.textContent = 'Sending love';
@@ -109,24 +106,23 @@
             }
         }
 
-        loginButton.addEventListener('mouseover', () => {
+        // Update button text dynamically based on input changes
+        firstNameInput.addEventListener('input', updateButtonState);
+        lastNameInput.addEventListener('input', updateButtonState);
+
+        // Handle button animation and click events
+        loginButton.addEventListener('click', (event) => {
             if (!validateForm()) {
+                event.preventDefault();
                 loginButton.classList.add('move-away');
                 setTimeout(() => {
                     loginButton.classList.remove('move-away');
                 }, 500);
-            }
-        });
-
-        loginButton.addEventListener('click', (event) => {
-            if (validateForm()) {
+            } else {
                 popup.style.display = 'flex';
                 setTimeout(() => {
                     popup.style.display = 'none';
                 }, 3000); // Popup will disappear after 3 seconds
-            } else {
-                event.preventDefault();
-                alert('Please fill in both first name and last name.');
             }
         });
     </script>
